@@ -18,6 +18,8 @@
 
   </nav>
   <div>
+    <div>{{name}}</div>
+    <button (click)="name='Nilesh'">Change Name</button>
     <h2>Users Data: </h2>
     <table class="table table-striped">
       <thead>
@@ -25,19 +27,37 @@
           <th>First Name</th>
           <th>Last Name</th>
           <th>Address</th>
+          <th>Status</th>
         </tr>
       </thead>
-      <tbody *ngIf="users.length > 0">
-          <tr *ngFor="let user of users">
+      <tbody>
+        <ng-container *ngIf="users.length > 0">
+          <tr *ngFor="let user of users" (click)="selectUser(user)">
             <td>{{user.firstName}}</td>
             <td>{{user.lastName}}</td>
             <td>{{user.address}}</td>
+            <td>
+              <div [ngSwitch]="user.status">
+                <div *ngSwitchCase="'Active'" class="active">Active</div>
+                <div *ngSwitchCase="'Inactive'" class="inactive">Inactive</div>
+                <div *ngSwitchCase="'Deleted'" class="deleted">Deleted</div>
+              </div>
+            </td>
           </tr>
+        </ng-container>
+        <tr class="text-center" *ngIf="users.length <= 0"> There is No Data!!</tr>
       </tbody>
-      <tbody *ngIf="users.length <= 0">
-        <tr class="text-center"> There is No Data!!</tr>
-      </tbody>
+
     </table>
+  </div>
+
+  <div>
+    <h1>Selected User:</h1>
+    <div [ngSwitch]="selectedUser">
+      <div *ngSwitchCase="'Vishnu'">Vishnu</div>
+      <div *ngSwitchCase="'Rahul'">Rahul</div>
+      <div *ngSwitchCase="'Nilesh'">Nilesh</div>
+    </div>
   </div>
   <section>
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
